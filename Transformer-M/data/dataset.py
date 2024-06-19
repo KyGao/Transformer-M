@@ -57,7 +57,7 @@ class PYGPreprocessedData():
         super().__init__()
 
         self.dataset_name = dataset_name
-        self.dataset = PYGDatasetLookupTable.GetPYGDataset(dataset_name, seed=seed, dataset_path=dataset_path, task_idx=task_idx)
+        self.dataset = PYGDatasetLookupTable.GetPYGDataset(dataset_name, seed=seed, task_idx=task_idx)
         self.setup()
 
     def setup(self, stage: str = None):

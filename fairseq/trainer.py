@@ -515,8 +515,9 @@ class Trainer(object):
                     "Cannot load model parameters from checkpoint {}; "
                     "please ensure that the architectures match.".format(filename)
                 )
-            extra_state = state["extra_state"]
-            self._optim_history = state["optimizer_history"]
+            if 'extra_state' in state:
+                extra_state = state["extra_state"]
+                self._optim_history = state["optimizer_history"]
 
         if last_optim_state is not None and not reset_optimizer:
             # rebuild optimizer after loading model, since params may have changed

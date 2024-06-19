@@ -336,7 +336,8 @@ def load_checkpoint_to_cpu(path, arg_overrides=None, load_on_all_ranks=False):
         if arg_overrides is not None:
             overwrite_args_by_name(state["cfg"], arg_overrides)
 
-    state = _upgrade_state_dict(state)
+    if "optimizer" in state:
+        state = _upgrade_state_dict(state)
     return state
 
 
