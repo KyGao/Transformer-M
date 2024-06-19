@@ -552,6 +552,6 @@ class TransformerMEncoderQM9(nn.Module):
             inner_states = [x]
 
         if self.traceable:
-            return torch.stack(inner_states), atom_output
+            return torch.stack(inner_states)
         else:
-            return inner_states, atom_output
+            return inner_states

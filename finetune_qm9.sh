@@ -30,7 +30,7 @@ ulimit -c unlimited
 [ -z "${save_interval}" ] && save_interval=10
 [ -z "${dataset_name}" ] && dataset_name="qm9H"
 
-[ -z "${task_idx}" ] && task_idx=2
+[ -z "${task_idx}" ] && task_idx=8
 
 [ -z "${add_3d}" ] && add_3d="true"
 [ -z "${no_2d}" ] && no_2d="true"
@@ -42,7 +42,7 @@ ulimit -c unlimited
 [ -z "${OMPI_COMM_WORLD_SIZE}" ] && OMPI_COMM_WORLD_SIZE=1
 
 [ -z "${save_prefix}" ] && save_prefix='exp'
-[ -z "${ckpt_path}" ] && ckpt_path='../ckpts/ckpt.pt' # set this dir
+[ -z "${ckpt_path}" ] && ckpt_path='./L12-old.pt' # set this dir
 
 echo -e "\n\n"
 echo "==================================MP==========================================="
@@ -169,7 +169,9 @@ echo "==========================================================================
 export NCCL_ASYNC_ERROR_HADNLING=1
 export OMP_NUM_THREADS=1
 
-python -m torch.distributed.launch --nproc_per_node=$n_gpu --master_port=$MASTER_PORT $ddp_options train.py \
+
+# python -m torch.distributed.launch --nproc_per_node=$n_gpu --master_port=$MASTER_PORT $ddp_options train.py \
+python train.py \
 	--user-dir $(realpath ./Transformer-M) \
 	--data-path $data_path \
 	--num-workers 16 --ddp-backend=legacy_ddp \

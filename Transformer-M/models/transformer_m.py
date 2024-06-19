@@ -379,7 +379,7 @@ class TransformerMQM9(FairseqEncoder):
 
     def forward(self, batched_data, perturb=None, segment_labels=None, masked_tokens=None, **unused):
 
-        inner_states, atom_output = self.molecule_encoder(
+        inner_states = self.molecule_encoder(
             batched_data,
             segment_labels=segment_labels,
             perturb=perturb,
@@ -394,7 +394,7 @@ class TransformerMQM9(FairseqEncoder):
         else:
             x = self.proj_out(x)
 
-        return x, atom_output, {
+        return x, None, {
             "inner_states": inner_states,
         }
 
