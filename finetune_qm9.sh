@@ -15,7 +15,7 @@ ulimit -c unlimited
 [ -z "${seed}" ] && seed=1
 [ -z "${clip_norm}" ] && clip_norm=5
 [ -z "${data_path}" ] && data_path='./'
-[ -z "${save_path}" ] && save_path='./logs'
+[ -z "${save_path}" ] && save_path='/blob/v-gaokaiyuan/results/transformer-m/logs'
 [ -z "${dropout}" ] && dropout=0.0
 [ -z "${act_dropout}" ] && act_dropout=0.1
 [ -z "${attn_dropout}" ] && attn_dropout=0.1
@@ -35,7 +35,7 @@ ulimit -c unlimited
 [ -z "${add_3d}" ] && add_3d="true"
 [ -z "${no_2d}" ] && no_2d="true"
 [ -z "${no_save}" ] && no_save="false"
-[ -z "${no_pretrain}" ] && no_pretrain="false"
+[ -z "${no_pretrain}" ] && no_pretrain="true"
 [ -z "${num_3d_bias_kernel}" ] && num_3d_bias_kernel=128
 
 [ -z "${MASTER_PORT}" ] && MASTER_PORT=10086
@@ -68,7 +68,7 @@ fi
 echo "ddp_options: ${ddp_options}"
 echo "==============================================================================="
 
-hyperparams=dataset-$dataset_name-lr-$lr-end_lr-$end_lr-tsteps-$total_steps-wsteps-$warmup_steps-L$layers-D$hidden_size-F$ffn_size-H$num_head-SLN-$sandwich_ln-BS$((batch_size*n_gpu*OMPI_COMM_WORLD_SIZE*update_freq))-CLIP$clip_norm-dp$dropout-attn_dp$attn_dropout-wd$weight_decay-dpp$droppath_prob/SEED$seed-TASK$task_idx-LOSS-$loss_type-STD-$std_type-RF-$readout_type
+hyperparams=dataset-$dataset_name-lr-$lr-end_lr-$end_lr-tsteps-$total_steps-wsteps-$warmup_steps-L$layers-D$hidden_size-F$ffn_size-H$num_head-SLN-$sandwich_ln-BS$((batch_size*OMPI_COMM_WORLD_SIZE*update_freq))-CLIP$clip_norm-dp$dropout-attn_dp$attn_dropout-wd$weight_decay-dpp$droppath_prob/SEED$seed-TASK$task_idx-LOSS-$loss_type-STD-$std_type-RF-$readout_type
 save_dir=$save_path/$save_prefix-$hyperparams
 tsb_dir=$save_dir/tsb
 mkdir -p $save_dir
@@ -77,7 +77,7 @@ echo -e "\n\n"
 echo "=====================================ARGS======================================"
 echo "arg0: $0"
 echo "seed: ${seed}"
-echo "batch_size: $((batch_size*n_gpu*OMPI_COMM_WORLD_SIZE*update_freq))"
+echo "batch_size: $((batch_size*OMPI_COMM_WORLD_SIZE*update_freq))"
 echo "n_layers: ${layers}"
 echo "lr: ${lr}"
 echo "warmup_steps: ${warmup_steps}"
@@ -171,7 +171,7 @@ export OMP_NUM_THREADS=1
 
 
 # python -m torch.distributed.launch --nproc_per_node=$n_gpu --master_port=$MASTER_PORT $ddp_options train.py \
-python train.py \
+CUDA_VISIBLE_DEVICES=0 python train.py \
 	--user-dir $(realpath ./Transformer-M) \
 	--data-path $data_path \
 	--num-workers 16 --ddp-backend=legacy_ddp \
