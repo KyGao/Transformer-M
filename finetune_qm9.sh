@@ -15,7 +15,7 @@ ulimit -c unlimited
 [ -z "${seed}" ] && seed=1
 [ -z "${clip_norm}" ] && clip_norm=5
 [ -z "${data_path}" ] && data_path='./'
-[ -z "${save_path}" ] && save_path='/blob/v-gaokaiyuan/results/transformer-m/logs'
+[ -z "${save_path}" ] && save_path='/blob/v-gaokaiyuan/results/transformer-m'
 [ -z "${dropout}" ] && dropout=0.0
 [ -z "${act_dropout}" ] && act_dropout=0.1
 [ -z "${attn_dropout}" ] && attn_dropout=0.1
@@ -35,14 +35,14 @@ ulimit -c unlimited
 [ -z "${add_3d}" ] && add_3d="true"
 [ -z "${no_2d}" ] && no_2d="true"
 [ -z "${no_save}" ] && no_save="false"
-[ -z "${no_pretrain}" ] && no_pretrain="true"
+[ -z "${no_pretrain}" ] && no_pretrain="false"
 [ -z "${num_3d_bias_kernel}" ] && num_3d_bias_kernel=128
 
 [ -z "${MASTER_PORT}" ] && MASTER_PORT=10086
 [ -z "${OMPI_COMM_WORLD_SIZE}" ] && OMPI_COMM_WORLD_SIZE=1
 
 [ -z "${save_prefix}" ] && save_prefix='exp'
-[ -z "${ckpt_path}" ] && ckpt_path='./L12-old.pt' # set this dir
+[ -z "${ckpt_path}" ] && ckpt_path='/root/workspace/Transformer-M/L12-old.pt' # set this dir
 
 echo -e "\n\n"
 echo "==================================MP==========================================="
