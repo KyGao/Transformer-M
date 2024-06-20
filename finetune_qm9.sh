@@ -170,6 +170,7 @@ export NCCL_ASYNC_ERROR_HADNLING=1
 export OMP_NUM_THREADS=1
 
 
+export WANDB_NAME=reproduce
 # python -m torch.distributed.launch --nproc_per_node=$n_gpu --master_port=$MASTER_PORT $ddp_options train.py \
 CUDA_VISIBLE_DEVICES=0 python train.py \
 	--user-dir $(realpath ./Transformer-M) \
@@ -185,4 +186,5 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
 	--attention-dropout $attn_dropout --act-dropout $act_dropout --dropout $dropout --weight-decay $weight_decay \
 	--optimizer adam --adam-betas '(0.9, 0.999)' --adam-eps 1e-8 $action_args --clip-norm $clip_norm $no_save_args \
 	--loss-type $loss_type --std-type $std_type --readout-type $readout_type \
+  --wandb-project Transformer-M-tok \
 	--tensorboard-logdir $tsb_dir --save-dir $save_dir --task-idx $task_idx $load_pretrain_args --save-interval $save_interval | tee $save_dir/train_log.txt
